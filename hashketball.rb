@@ -112,192 +112,150 @@ game_hash ={
 }
 end
 
-def num_points_scored(player)
-home_i=0
-away_i=0
-players_home_list =game_hash[:home][:players]
-players_away_list =game_hash[:away][:players]
-while home_i<players_home_list.length
-  if players_home_list[home_i][:player_name] == player
-    return players_home_list[home_i][:points]
-    end
-  home_i+=1
-  end
+def num_points_scored(name)
+ i = 0
+ index =0
+players_home = game_hash[:home][:players]
+players_away = game_hash[:away][:players] 
+while i<players_home.length do
+if players_home[i][:player_name] == name
+  return players_home[i][:points]
+end
+i+=1  
+end
+while index<players_away.length do
+if players_away[index][:player_name] == name
+  return players_away[index][:points]
+end
+index+=1  
+end
+
+end
   
-while away_i<players_away_list.length
-  if players_away_list[away_i][:player_name] == player
-    return players_away_list[away_i][:points]
-   end 
-   away_i+=1
+def shoe_size(name)
+ i = 0
+ index =0
+players_home = game_hash[:home][:players]
+players_away = game_hash[:away][:players] 
+while i<players_home.length do
+if players_home[i][:player_name] == name
+  return players_home[i][:shoe]
+end
+i+=1  
+end
+while index<players_away.length do
+if players_away[index][:player_name] == name
+  return players_away[index][:shoe]
+end
+index+=1  
 end
 
 end
-
-def shoe_size(player)
-home_i=0
-away_i=0
-players_home_list =game_hash[:home][:players]
-players_away_list =game_hash[:away][:players]
-while home_i<players_home_list.length
-  if players_home_list[home_i][:player_name] == player
-    return players_home_list[home_i][:shoe]
-    end
-  home_i+=1
-  end
   
-while away_i<players_away_list.length
-  if players_away_list[away_i][:player_name] == player
-    return players_away_list[away_i][:shoe]
-   end 
-   away_i+=1
-end
-
-end
-
 def team_colors(team)
-colors =[]  
-  game_hash.each do |home_away, team_colors_players | 
-    team_colors_players.each do |k, v| 
-      if game_hash[home_away][k] == team
-        colors.push(game_hash[home_away][:colors])
-      end
-    end
-  end
-team_colors = colors[0]
-team_colors
-end  
-
+if game_hash[:home][:team_name]==team
+  game_hash[:home][:colors]
+elsif game_hash[:away][:team_name]==team
+  game_hash[:away][:colors]
+end
+end
 
 def team_names
-teams =[]
-  game_hash.each do |home_away, team_colors_players | 
-    team_colors_players.each do |k, v|
-      teams.push(game_hash[home_away][:team_name])
-    end
-  end
-teams.uniq!  
+team_names =[]
+team_names.push(game_hash[:home][:team_name])
+team_names.push(game_hash[:away][:team_name])
+team_names
 end
-
-def player_numbers(team_name)
- i=0
- game_hash.map do |home_away, players| 
-    #if players[:team_name] == team_name
-    while i<players[:players].length
-    return players[:players][i][:number]
-      #while i<players[:players].length
-      #players[:players][i][:number]
-      i+=1
-      end
-    #end
-  end
- 
-
-end
-
-def player_numbers(name)
-  i=0
-  number_hash = []
-  game_hash.each do |home_away, second_index|
-   if second_index[:team_name] == name
-      while i<second_index[:players].length
-      number_hash.push(second_index[:players][i][:number])
-      i+=1
-      end
-    end
-  end
-p number_hash
-end
-
-
-def player_stats(player_name)
-player_stats ={}
-i=0
-player_index =[]
-  game_hash.each do |home_away, second_index|  player_index.push(second_index[:players])
-    #while i<second_index.length
-    #p second_index[:players]
-    #i+=1
-  #end
-  end  
-player_index.flatten!
- player_index
-while i<player_index.length
- if player_index[i][:player_name] == player_name
-   player_stats = {:number => player_index[i][:number], :blocks => player_index[i][:blocks], :assists =>player_index[i][:assists], :points => player_index[i][:points], :rebounds =>player_index[i][:rebounds], :shoe =>player_index[i][:shoe], :slam_dunks =>player_index[i][:slam_dunks], :steals =>player_index[i][:steals]
-   }
- end 
-i+=1
-end
-
-player_stats
   
+def player_numbers(team)
+  i=0
+  index =0
+  player_numbers = []
+  if game_hash[:home][:team_name]==team
+    while i<game_hash[:home][:players].length;
+    player_numbers.push(game_hash[:home][:players][i][:number])
+    i+=1
+    end
+  
+  elsif game_hash[:away][:team_name]==team
+    while i<game_hash[:away][:players].length;
+    player_numbers.push(game_hash[:away][:players][i][:number])
+    i+=1
+    end
+  end
+  player_numbers
 end
 
-def player_index
-player_index =[]
-  game_hash.each do |home_away, second_index|  player_index.push(second_index[:players])
-    end  
-player_index.flatten!
- player_index
+def player_stats(name)
+   i = 0
+ index =0
+players_home = game_hash[:home][:players]
+players_away = game_hash[:away][:players] 
+while i<players_home.length do
+if players_home[i][:player_name] == name
+  player = players_home[i]
+  return {:number =>player[:number], :shoe =>player[:shoe], :points =>player[:points], :rebounds =>player[:rebounds], :assists =>player[:assists], :steals => player[:steals], :blocks =>player[:blocks], :slam_dunks => player[:slam_dunks]}
+end
+i+=1  
+end
+while index<players_away.length do
+if players_away[index][:player_name] == name
+  player = players_away[index]
+  return {:number =>player[:number], :shoe =>player[:shoe], :points =>player[:points], :rebounds =>player[:rebounds], :assists =>player[:assists], :steals => player[:steals], :blocks =>player[:blocks], :slam_dunks => player[:slam_dunks]}
+end
+index+=1  
+end
+
+end
+
+def makePlayerHash
+playerHash =[]
+#index = 0
+#i=0
+#while i<game_hash[:home][:players].length{
+#  playerHash.push(game_hash[:home][:players][i])
+#}
+#i+=1
+#end
+#while index<game_hash[:away][:players].length{
+#  playerHash.push(game_hash[:home][:players][index])
+#}
+#index+=1
+#end
+playerHash.push(game_hash[:home][:players])
+playerHash.push(game_hash[:away][:players])
+playerHash.flatten!
+playerHash
 end
 
 def big_shoe_rebounds
- player_index
-#player_index.each do |array, values| p array[:shoe]
-#end
-player_index.max_by{|k| k[:shoe] }[:rebounds]
-end
+makePlayerHash.max_by{|k| k[:shoe]} [:rebounds]
 
+
+end
+  
 def most_points_scored
-  player_index.max_by{|k| k[:points] }[:player_name]
+  makePlayerHash.max_by{|k| k[:points]} [:player_name]
 end
-  
+
 def winning_team
-total_points ={}
-players_home_list =game_hash[:home][:players]
-players_away_list = game_hash[:away][:players]
-#p players_home_list
-#p players_away_list
-
-home_total = 0;
-away_total = 0;
-home_i =0
-away_i =0
-  while home_i<players_home_list.length
-  home_total += players_home_list[home_i][:points]
-  home_i+=1;
-  end
-  while away_i<players_away_list.length
-  away_total += players_away_list[away_i][:points]
-  away_i+=1;
-  end
-
-total_points = {game_hash[:home][:team_name] => home_total, game_hash[:away][:team_name] => away_total}
-
-total_points.max_by{|k,v| v}[0]
-
+  home_team_points = 0
+  away_team_points = 0
+  game_hash[:home][:players].each {|k| home_team_points+= k[:points]}
+  game_hash[:away][:players].each {|k| away_team_points+= k[:points]}
+  home_team_points
+  away_team_points
+  home_team_name= game_hash[:home][:team_name]
+  away_team_name= game_hash[:away][:team_name]
+  winning_team ={home_team_name => home_team_points, away_team_name => away_team_points}
+  p winning_team.max_by{|k,v| v; return k}
 end
-  
+
 def player_with_longest_name
-player_index.max_by{|k| k[:player_name].length }[:player_name]
+  makePlayerHash.max_by{|k| k[:player_name].length} [:player_name]
 end
-
+  
 def long_name_steals_a_ton?
-#p player_with_longest_name
-player_with_most_steals=  player_index.max_by{|k| k[:steals]}[:player_name]
-if player_with_longest_name == player_with_most_steals
-  return TRUE
-else FALSE
+player_with_longest_name == makePlayerHash.max_by{|k| k[:steals]}[:player_name]
 end
-  
-end
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
